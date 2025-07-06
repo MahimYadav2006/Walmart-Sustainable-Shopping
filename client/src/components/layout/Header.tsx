@@ -6,7 +6,7 @@ import { useStore } from '../../store/useStore';
 import SearchBar from '../common/SearchBar';
 
 import { notificationSocket } from "../../services/socket";
-
+const walmartlogo = "/walmart.svg";
 const Header = () => {
   const { cart, user, logout } = useStore();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -14,11 +14,30 @@ const Header = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const navigate = useNavigate();
 
-  const [isJoining, setIsJoining] = useState({ });
+  const [isJoining, setIsJoining] = useState<{ [key: string]: boolean }>({});
   const [showNotifications, setShowNotifications] = useState(false);
   const [activeTab, setActiveTab] = useState('chat');
-  const [chatNotifications, setChatNotifications] = useState([])
-  const [groupBuyNotifications, setGroupBuyNotifications] = useState([])
+  // Define types for notifications
+  type GroupBuyNotification = {
+    _id: string;
+    groupId: { _id: string; name: string; members: any[] };
+    sender: { name: string; email: string };
+    isRead?: boolean;
+    [key: string]: any;
+  };
+
+  type ChatNotificationGroup = {
+    message: {
+      _id: string;
+      senderId: { name: string; sentAt: string };
+      content: string;
+      [key: string]: any;
+    }[];
+    [key: string]: any;
+  };
+
+  const [chatNotifications, setChatNotifications] = useState<ChatNotificationGroup[]>([]);
+  const [groupBuyNotifications, setGroupBuyNotifications] = useState<GroupBuyNotification[]>([]);
   const [unreadChatCount, setUnreadChatCount] = useState(0);
   const [unreadGroupCount, setUnreadGroupCount] = useState(0);
 
@@ -63,7 +82,7 @@ const Header = () => {
             : [data.notification];
     
           const existingIds = new Set(prev.map(n => n._id));
-          const uniqueNew = newNotifications.filter(n => !existingIds.has(n._id));
+          const uniqueNew = newNotifications.filter((n: GroupBuyNotification) => !existingIds.has(n._id));
     
           return [...uniqueNew, ...prev];
         });
@@ -87,19 +106,19 @@ const Header = () => {
 
   }, [user?._id]);
   
-  const handleJoinGroup = ({ _id, groupId, userId }) => {
+  const handleJoinGroup = ({ _id, groupId, userId }: { _id: string; groupId: string; userId: string }) => {
     setIsJoining(prev => ({ ...prev, [_id]: true }));
 
     notificationSocket.emit('join-group', { _id: _id, groupId: groupId, userId: userId });
   };
 
 
-  const MessageRead = ({ userId }) => {
+  const MessageRead = ({ userId }: { userId: string }) => {
     notificationSocket.emit('mark-read-message', { data: chatNotifications, userId: userId });
   };
 
 
-  const ReadJoinGroupNotification = ({ userId }) => {
+  const ReadJoinGroupNotification = ({ userId }: { userId: string }) => {
     notificationSocket.emit('mark-group-notification', { data: groupBuyNotifications, userId: userId });
   };
 
@@ -110,7 +129,7 @@ const Header = () => {
     setShowNotifications(!showNotifications);
   };
 
-  const formatTime = (date) => {
+  const formatTime = (date: string | number | Date | undefined) => {
     if (!date) return '';
     return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',  hour12: true, }).toUpperCase();
   };
@@ -118,41 +137,41 @@ const Header = () => {
   const cartItemCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
-    <header className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4">
+    <header className="bg-blue-600 text-white">
+      <div className="max-w-8xl mx-auto px-4">
         {/* Mobile Header */}
-        <div className="flex items-center justify-between h-16 lg:hidden">
+        <div className="flex items-center justify-between h-20 lg:hidden">
           {/* Mobile Menu Button */}
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="p-2 hover:bg-gray-700 rounded transition-colors"
+            className="p-2 hover:bg-blue-700 rounded transition-colors"
           >
             <Menu className="w-6 h-6" />
           </button>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-1 p-2">
+          <Link to="/" className="relative flex items-center p-2">
             <img
-              src="/logo.png"
-              alt="Amazon Logo"
-              className="w-20 h-auto object-contain"
+              src={walmartlogo}
+              alt="Walmart Logo"
+              className="w-20 h-10 object-contain"
             />
-            <Leaf className="w-4 h-4 text-green-400" />
+            <Leaf className="w-4 h-4 text-yellow-400 absolute right-2 top-1/2 transform -translate-y-1/2" />
           </Link>
 
           {/* Mobile Search Button */}
           <button
             onClick={() => setShowMobileSearch(!showMobileSearch)}
-            className="p-2 hover:bg-gray-700 rounded transition-colors"
+            className="p-2 hover:bg-blue-700 rounded transition-colors"
           >
             <Search className="w-6 h-6" />
           </button>
 
           {/* Mobile Cart */}
-          <Link to="/cart" className="relative p-2 hover:bg-gray-700 rounded transition-colors">
+          <Link to="/cart" className="relative p-2 hover:bg-blue-700 rounded transition-colors">
             <ShoppingCart className="w-6 h-6" />
             {cartItemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-orange-400 text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 bg-yellow-400 text-blue-600 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                 {cartItemCount}
               </span>
             )}
@@ -165,7 +184,7 @@ const Header = () => {
               onClick={handleNotificationClick}
             />
             {totalUnread > 0 && (
-              <span className="absolute -top-1 -right-1 bg-orange-400 text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 bg-yellow-400 text-blue-600 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                 {totalUnread}
               </span>
             )}
@@ -180,22 +199,22 @@ const Header = () => {
         )}
 
         {/* Desktop Header */}
-        <div className="hidden lg:flex items-center justify-between h-16">
+        <div className="hidden lg:flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-1 p-2">
+          <Link to="/" className="relative flex items-center p-2">
             <img
-              src="/logo.png"
-              alt="Amazon Logo"
-              className="w-24 h-auto object-contain"
+              src={walmartlogo}
+              alt="Walmart Logo"
+              className="w-20 h-10 object-contain"
             />
-            <Leaf className="w-5 h-5 text-green-400" />
+            <Leaf className="w-4 h-4 text-yellow-400 absolute right-2 top-1/2 transform -translate-y-1/2" />
           </Link>
 
           {/* Delivery Location */}
           <div className="hidden xl:flex items-center space-x-1 text-sm">
             <MapPin className="w-4 h-4" />
             <div>
-              <div className="text-xs text-gray-300">Deliver to</div>
+              <div className="text-xs text-blue-100">Deliver to</div>
               <div className="font-semibold">
                 {user?.location && typeof user.location === 'object' && user.location.city
                   ? `${user.location.city}, ${user.location.state}, ${user.location.country} - ${user.location.pin}`
@@ -301,7 +320,7 @@ const Header = () => {
               <div className="relative">
                 <ShoppingCart className="w-6 h-6" />
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-orange-400 text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-blue-600 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                     {cartItemCount}
                   </span>
                 )}
@@ -316,7 +335,7 @@ const Header = () => {
                 onClick={handleNotificationClick}
               />
               {totalUnread > 0 && (
-                <span className="absolute -top-1 -right-1 bg-orange-400 text-gray-900 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                <span className="absolute -top-1 -right-1 bg-yellow-400 text-blue-600 text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                   {totalUnread}
                 </span>
               )}
@@ -347,7 +366,9 @@ const Header = () => {
               <button
                 onClick={() => {
                   setActiveTab('chat');
-                  MessageRead({userId: user?._id});
+                  if (user?._id) {
+                    MessageRead({ userId: user._id });
+                  }
                 }}
                 className={`flex-1 py-2 px-4 text-sm font-medium flex items-center justify-center gap-2 ${activeTab === 'chat' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
               >
@@ -361,13 +382,15 @@ const Header = () => {
               <button
                 onClick={() => {
                   setActiveTab('group');
-                  ReadJoinGroupNotification({userId: user?._id});
+                  if (user?._id) {
+                    ReadJoinGroupNotification({ userId: user._id });
+                  }
                 }}
-                className={`flex-1 py-2 px-4 text-sm font-medium flex items-center justify-center gap-2 ${activeTab === 'group' ? 'text-green-600 border-b-2 border-green-600' : 'text-gray-500 hover:text-gray-700'}`}
+                className={`flex-1 py-2 px-4 text-sm font-medium flex items-center justify-center gap-2 ${activeTab === 'group' ? 'text-yellow-600 border-b-2 border-yellow-600' : 'text-gray-500 hover:text-gray-700'}`}
               >
                 <Users className="w-4 h-4" />
                 Groups {unreadGroupCount > 0 && (
-                  <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">
+                  <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">
                     {unreadGroupCount}
                   </span>
                 )}
@@ -407,14 +430,14 @@ const Header = () => {
                 groupBuyNotifications.map((data) => (
                   <div 
                     key={data._id} 
-                    className={`p-4 border-b border-gray-100 hover:bg-gray-50 ${!data.isRead ? 'bg-green-50' : ''}`}
+                    className={`p-4 border-b border-gray-100 hover:bg-gray-50 ${!data.isRead ? 'bg-yellow-50' : ''}`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-start gap-3">
                         <div className="relative">
-                          <Users className={`w-5 h-5 mt-1 ${data.isRead ? 'text-gray-400' : 'text-green-500'}`} />
+                          <Users className={`w-5 h-5 mt-1 ${data.isRead ? 'text-gray-400' : 'text-yellow-600'}`} />
                           {data.groupId && (
-                            <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                            <span className="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                               {data.groupId.members.length}
                             </span>
                           )}
@@ -428,7 +451,15 @@ const Header = () => {
                         </div>
                       </div>
                       
-                      <button className="text-sm text-blue-500 hover:text-blue-700" onClick={() => handleJoinGroup({ _id: data._id, groupId: data.groupId._id, userId: user._id })}>
+                      <button
+                        className="text-sm text-blue-600 hover:text-blue-800"
+                        onClick={() => {
+                          if (user) {
+                            handleJoinGroup({ _id: data._id, groupId: data.groupId._id, userId: user._id });
+                          }
+                        }}
+                        disabled={!user}
+                      >
                         {isJoining[data._id] ? 'Joining...' : 'Join'}
                       </button>
                     </div>
@@ -471,15 +502,15 @@ const Header = () => {
               </div>
 
               {/* Mobile User Section */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg flex flex-col items-start gap-2">
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg flex flex-col items-start gap-2">
                 {user ? (
                   <>
                     <div className="flex items-center gap-2">
-                      <User className="w-5 h-5 text-green-600" />
+                      <User className="w-5 h-5 text-blue-600" />
                       <span className="font-semibold text-gray-900">Hello, {user.name.split(' ')[0]}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Leaf className="w-4 h-4 text-green-500" /> Eco Score: <span className="font-semibold">{user.ecoScore}</span>
+                      <Leaf className="w-4 h-4 text-yellow-500" /> Eco Score: <span className="font-semibold">{user.ecoScore}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <MapPin className="w-4 h-4 text-blue-500" />
@@ -505,49 +536,49 @@ const Header = () => {
               <div className="space-y-1">
                 <Link
                   to="/profile"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Your Profile
                 </Link>
                 <Link
                   to="/orders"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Your Orders
                 </Link>
                 <Link
                   to="/green-store"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Green Store
                 </Link>
                 <Link
                   to="/group-buy"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Group Buy
                 </Link>
                 <Link
                   to="/challenges"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Eco Challenges
                 </Link>
                 <Link
                   to="/carbon-calculator"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Carbon Calculator
                 </Link>
                 <Link
                   to="/customer-service"
-                  className="block py-3 px-4 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors"
                   onClick={() => setShowMobileMenu(false)}
                 >
                   Customer Service

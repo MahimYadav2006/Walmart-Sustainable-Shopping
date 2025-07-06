@@ -113,44 +113,46 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-blue-50 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full space-y-8"
+        className="max-w-md w-full"
       >
-        <div>
-          <Link to="/" className="flex justify-center">
-            <div className="flex items-center space-x-2">
-              <img
-                src="/dark-logo.png"
-                alt="Amazon Logo"
-                className="w-24 h-auto object-contain"
-              />
-              <Leaf className="w-5 h-5 text-green-400" />
-            </div>
-          </Link>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link
-              to="/login"
-              className="font-medium text-green-600 hover:text-green-500"
-            >
-              sign in to existing account
+        <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-200">
+          <div className="text-center mb-8">
+            <Link to="/" className="flex justify-center mb-4">
+              <div className="flex items-center space-x-2">
+                <div className="bg-blue-600 text-white p-2 rounded-lg">
+                  {/* <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z"/>
+                    <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z" fill="none" stroke="currentColor" strokeWidth="2"/>
+                  </svg> */}
+                  <img src="/walmart.svg" className='w-8 h-8' alt="" />
+                </div>
+                <div className="text-left">
+                  <h1 className="text-2xl font-bold text-blue-600">Walmart</h1>
+                  <div className="flex items-center space-x-1">
+                    <Leaf className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-600">Green</span>
+                  </div>
+                </div>
+              </div>
             </Link>
-          </p>
-        </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              Create your account
+            </h2>
+            <p className="text-gray-600">
+              Join millions of customers who trust Walmart
+            </p>
+          </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
                 Full Name
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-gray-400" />
                 </div>
@@ -161,14 +163,14 @@ const RegisterForm = () => {
                   autoComplete="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`appearance-none relative block w-full pl-10 pr-3 py-2 border ${
-                    validationErrors.name ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
+                  className={`w-full pl-10 pr-4 py-3 border ${
+                    validationErrors.name ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200`}
                   placeholder="Enter your full name"
                 />
               </div>
               {validationErrors.name && (
-                <div className="flex items-start space-x-2 mt-1">
+                <div className="flex items-center space-x-2 mt-2">
                   <ErrorIcon />
                   <p className="text-sm text-red-600">{validationErrors.name}</p>
                 </div>
@@ -176,10 +178,10 @@ const RegisterForm = () => {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                 Email address
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-gray-400" />
                 </div>
@@ -190,14 +192,14 @@ const RegisterForm = () => {
                   autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`appearance-none relative block w-full pl-10 pr-3 py-2 border ${
-                    validationErrors.email ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
+                  className={`w-full pl-10 pr-4 py-3 border ${
+                    validationErrors.email ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200`}
                   placeholder="Enter your email"
                 />
               </div>
               {validationErrors.email && (
-                <div className="flex items-start space-x-2 mt-1">
+                <div className="flex items-center space-x-2 mt-2">
                   <ErrorIcon />
                   <p className="text-sm text-red-600">{validationErrors.email}</p>
                 </div>
@@ -205,10 +207,10 @@ const RegisterForm = () => {
             </div>
 
             <div>
-              <label htmlFor="number" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="number" className="block text-sm font-semibold text-gray-700 mb-2">
                 Phone number
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Phone className="h-5 w-5 text-gray-400" />
                 </div>
@@ -219,14 +221,14 @@ const RegisterForm = () => {
                   autoComplete="tel"
                   value={formData.number}
                   onChange={handleChange}
-                  className={`appearance-none relative block w-full pl-10 pr-3 py-2 border ${
-                    validationErrors.number ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
+                  className={`w-full pl-10 pr-4 py-3 border ${
+                    validationErrors.number ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200`}
                   placeholder="Enter your phone number"
                 />
               </div>
               {validationErrors.number && (
-                <div className="flex items-start space-x-2 mt-1">
+                <div className="flex items-center space-x-2 mt-2">
                   <ErrorIcon />
                   <p className="text-sm text-red-600">{validationErrors.number}</p>
                 </div>
@@ -234,10 +236,10 @@ const RegisterForm = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
                 Password
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-gray-400" />
                 </div>
@@ -248,14 +250,14 @@ const RegisterForm = () => {
                   autoComplete="new-password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`appearance-none relative block w-full pl-10 pr-10 py-2 border ${
-                    validationErrors.password ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
+                  className={`w-full pl-10 pr-12 py-3 border ${
+                    validationErrors.password ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200`}
                   placeholder="Create a password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-blue-600 transition-colors duration-200"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -266,7 +268,7 @@ const RegisterForm = () => {
                 </button>
               </div>
               {validationErrors.password && (
-                <div className="flex items-start space-x-2 mt-1">
+                <div className="flex items-center space-x-2 mt-2">
                   <ErrorIcon />
                   <p className="text-sm text-red-600">{validationErrors.password}</p>
                 </div>
@@ -274,10 +276,10 @@ const RegisterForm = () => {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
                 Confirm Password
               </label>
-              <div className="mt-1 relative">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-gray-400" />
                 </div>
@@ -288,14 +290,14 @@ const RegisterForm = () => {
                   autoComplete="new-password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`appearance-none relative block w-full pl-10 pr-10 py-2 border ${
-                    validationErrors.confirmPassword ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
+                  className={`w-full pl-10 pr-12 py-3 border ${
+                    validationErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200`}
                   placeholder="Confirm your password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-blue-600 transition-colors duration-200"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
@@ -306,45 +308,52 @@ const RegisterForm = () => {
                 </button>
               </div>
               {validationErrors.confirmPassword && (
-                <div className="flex items-start space-x-2 mt-1">
+                <div className="flex items-center space-x-2 mt-2">
                   <ErrorIcon />
                   <p className="text-sm text-red-600">{validationErrors.confirmPassword}</p>
                 </div>
               )}
             </div>
-          </div>
 
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                <p className="text-sm text-red-600 flex-1">
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-sm text-red-700">
                   {formatErrorMessage(error)}
                 </p>
-            </div>
-          )}
+              </div>
+            )}
 
-          <div>
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
             >
               {loading ? 'Creating account...' : 'Create account'}
             </button>
-          </div>
 
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              By creating an account, you agree to Amazon Green's{' '}
-              <Link to="/terms" className="text-green-600 hover:text-green-500">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link to="/privacy" className="text-green-600 hover:text-green-500">
-                Privacy Policy
-              </Link>
-            </p>
-          </div>
-        </form>
+            <div className="text-center pt-4 border-t border-gray-200">
+              <p className="text-sm text-gray-600 mb-4">
+                Already have an account?{' '}
+                <Link
+                  to="/login"
+                  className="font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200"
+                >
+                  Sign in
+                </Link>
+              </p>
+              <p className="text-xs text-gray-500">
+                By creating an account, you agree to Walmart's{' '}
+                <Link to="/terms" className="text-blue-600 hover:text-blue-700 underline">
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link to="/privacy" className="text-blue-600 hover:text-blue-700 underline">
+                  Privacy Policy
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </motion.div>
     </div>
   );

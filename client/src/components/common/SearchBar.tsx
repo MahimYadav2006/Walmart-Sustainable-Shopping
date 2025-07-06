@@ -42,8 +42,8 @@ const SearchBar = () => {
 
   return (
     <div className="relative w-full">
-      <form onSubmit={handleSearch} className="flex w-full">
-        <select className="bg-gray-200 text-gray-900 px-2 sm:px-3 py-2 rounded-l-md border-r border-gray-300 text-xs sm:text-sm hidden sm:block">
+      <form onSubmit={handleSearch} className="flex w-full bg-white rounded-full border-2 border-gray-300 hover:border-gray-400 focus-within:border-blue-500 transition-colors shadow-sm">
+        <select className="bg-transparent text-gray-700 px-3 sm:px-4 py-3 text-xs sm:text-sm hidden sm:block focus:outline-none border-r border-gray-300 rounded-l-full">
           <option>All Departments</option>
           <option>Green Store</option>
           <option>Electronics</option>
@@ -58,30 +58,30 @@ const SearchBar = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => searchQuery.length > 2 && setShowSuggestions(true)}
-            placeholder="Search Amazon Green for eco-friendly products..."
-            className="w-full px-3 sm:px-4 py-2 text-gray-900 focus:outline-none text-sm sm:text-base"
+            placeholder="Search everything at Walmart online and in store"
+            className="w-full px-4 py-3 text-gray-900 focus:outline-none text-sm sm:text-base bg-transparent placeholder-gray-500"
           />
           
           {/* Search Suggestions */}
           {showSuggestions && filteredProducts.length > 0 && (
-            <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-md shadow-lg z-50 max-h-80 overflow-y-auto">
+            <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-xl z-50 max-h-80 overflow-y-auto mt-1">
               {filteredProducts.map((product) => (
                 <button
                   key={product._id}
                   onClick={() => handleSuggestionClick(product)}
-                  className="w-full text-left px-3 sm:px-4 py-2 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+                  className="w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
                 >
-                  <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className="flex items-center space-x-3">
                     <img
                       src={product.url || 'https://images.pexels.com/photos/1029236/pexels-photo-1029236.jpeg?auto=compress&cs=tinysrgb&w=50'}
                       alt={product.name}
-                      className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded"
+                      className="w-8 h-8 object-cover rounded border border-gray-200"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/1029236/pexels-photo-1029236.jpeg?auto=compress&cs=tinysrgb&w=50';
                       }}
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs sm:text-sm font-medium text-gray-900 truncate">
+                      <div className="text-sm font-medium text-gray-900 truncate">
                         {product.name}
                       </div>
                       <div className="text-xs text-gray-600">{product.price}</div>
@@ -95,9 +95,9 @@ const SearchBar = () => {
 
         <button
           type="submit"
-          className="bg-orange-400 hover:bg-orange-500 px-3 sm:px-4 py-2 rounded-r-md flex items-center justify-center transition-colors"
+          className="bg-yellow-400 hover:bg-yellow-500 px-4 py-3 rounded-r-full flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2"
         >
-          <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900" />
+          <Search className="w-5 h-5 text-gray-900" />
         </button>
       </form>
     </div>

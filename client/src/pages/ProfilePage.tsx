@@ -405,12 +405,12 @@ const ProfilePage = () => {
                 {user.badges && user.badges.length > 0 ? (
                   user.badges.map((badge, idx) => {
                     // Always use public folder icons, determine frequency from badge name
-                    let freq = '';
+                    let freq: keyof typeof BADGE_ICONS | '' = '';
                     if (badge.name?.toLowerCase().includes('daily')) freq = 'daily';
                     else if (badge.name?.toLowerCase().includes('weekly')) freq = 'weekly';
                     else if (badge.name?.toLowerCase().includes('monthly')) freq = 'monthly';
                     
-                    const badgeIcon = BADGE_ICONS[freq] || BADGE_ICONS.earned;
+                    const badgeIcon = freq ? BADGE_ICONS[freq] : BADGE_ICONS.earned;
                     
                     return (
                       <div key={badge.id || badge.challengeId || badge.name || idx} className="flex flex-col items-center p-2 bg-yellow-50 rounded-lg shadow-sm w-24">
