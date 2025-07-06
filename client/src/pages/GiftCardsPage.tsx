@@ -75,7 +75,7 @@ const GiftCardsPage = () => {
   const giftCards = [
     {
       id: 1,
-      name: "Amazon.com",
+      name: "Walmart.com",
       category: "shopping",
       image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=200&h=200&fit=crop",
       rating: 4.9,

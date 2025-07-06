@@ -220,7 +220,7 @@ const Navigation = () => {
                     Shop by Interest
                   </Link>
                   <Link
-                    to="/amazon-prime"
+                    to="/walmart-plus"
                     className="block py-3 px-4 hover:bg-blue-50 rounded-lg transition-colors text-gray-700 font-medium hover:text-blue-600 border border-transparent hover:border-blue-200"
                     onClick={() => setMenuOpen(false)}
                   >

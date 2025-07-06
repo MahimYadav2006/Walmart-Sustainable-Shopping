@@ -56,11 +56,11 @@ const CustomerServicePage = () => {
       description: 'Account settings, security'
     },
     {
-      id: 'prime',
-      name: 'Amazon Prime',
+      id: 'plus',
+      name: 'Walmart+',
       icon: Star,
       color: 'bg-yellow-500',
-      description: 'Prime membership, benefits'
+      description: 'Walmart Plus membership benefits'
     },
     {
       id: 'technical',
@@ -249,8 +249,8 @@ const CustomerServicePage = () => {
               answer: "Most items can be returned within 30 days of delivery. Some items have different return windows. Check the product page for specific return information."
             },
             {
-              question: "How do I cancel my Amazon Prime membership?",
-              answer: "You can cancel your Prime membership by going to Account & Lists > Prime > Manage Membership > End Membership."
+              question: "How do I cancel my Walmart+ membership?",
+              answer: "You can cancel your Walmart+ membership by going to Account & Lists > Walmart+ > Manage Membership > End Membership."
             },
             {
               question: "What payment methods do you accept?",
