@@ -8,7 +8,8 @@ const productSchema = new mongoose.Schema({
   name: String,
   category: {
     type: String,
-    default: 'General'
+    // default: 'General'
+    required: true
   },
   subCategory: {
     type: String,
@@ -54,28 +55,28 @@ const productSchema = new mongoose.Schema({
   sellerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
-    required: true
+    required: false
   },
   weight: {
     type: Number,
-    required: true
+    required: false
   },
   materialComposition: {
     type: Map,
     of: Number, // percentage of each material
-    required: true
+    required: false
   },
   packaging: {
     type: String,
-    required: true
+    required: false
   },
   recyclability: {
     type: Boolean,
-    required: true
+    required: false
   },
   distance: {
     type: Number, // distance in km
-    required: true
+    required: false
   },
   salesCount: {
     type: Number,
@@ -84,11 +85,11 @@ const productSchema = new mongoose.Schema({
   },
   repairability: {
     type: Boolean,
-    required: true
+    required: false
   },
   lifespan: {
     type: Number,
-    required: true
+    required: false
   }
 });
 

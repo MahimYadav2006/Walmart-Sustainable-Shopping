@@ -49,7 +49,8 @@ const userSchema = new mongoose.Schema({
           ecoScore: Number,
           isEcoFriendly: Boolean,
           packaging: String,
-          packagingCarbon: Number
+          packagingCarbon: Number,
+          category: String
         }],
         totalAmount: Number,
         totalEcoScore: Number,

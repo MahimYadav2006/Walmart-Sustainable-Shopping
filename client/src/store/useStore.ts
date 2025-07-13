@@ -322,10 +322,15 @@ export const useStore = create<Store>((set, get) => ({
 
       // Use provided order data or calculate from cart
       let finalOrderData;
+
       if (orderData) {
         // Use packaging data from cart page - map to proper format
+        console.log("Order is present, obviously")
+
         const orderItems = orderData.items.map((item: any) => {
           const cartItem = cart.find(c => c.cartItem._id === item.productId);
+          console.log(cartItem)
+          console.log(item)
           return {
             name: cartItem?.cartItem.name || 'Unknown Product',
             quantity: item.quantity,
@@ -334,7 +339,8 @@ export const useStore = create<Store>((set, get) => ({
             ecoScore: cartItem?.cartItem.ecoScore || 0,
             isEcoFriendly: cartItem?.cartItem.isEcoFriendly || false,
             packaging: item.packaging || 'standard',
-            packagingCarbon: item.packagingCarbon || 0
+            packagingCarbon: item.packagingCarbon || 0,
+            category: cartItem?.cartItem.category
           };
         });
 
@@ -357,7 +363,8 @@ export const useStore = create<Store>((set, get) => ({
           ecoScore: item.cartItem.ecoScore || 0,
           isEcoFriendly: item.cartItem.isEcoFriendly || false,
           packaging: 'standard',
-          packagingCarbon: 0
+          packagingCarbon: 0,
+          category: item.cartItem.category
         }));
 
         const totalAmount = orderItems.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);

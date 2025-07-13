@@ -519,6 +519,8 @@ router.post('/orders', authenticate, async (req, res) => {
     }
 
     // Create order object with detailed information and eco-friendly flags
+    console.log(items)
+    
     const orderInfo = {
       items: items.map(item => ({
         name: item.name,
@@ -528,7 +530,8 @@ router.post('/orders', authenticate, async (req, res) => {
         ecoScore: item.ecoScore || 0,
         isEcoFriendly: item.isEcoFriendly || (item.ecoScore && item.ecoScore > 0),
         packaging: item.packaging || 'standard',
-        packagingCarbon: item.packagingCarbon || 0
+        packagingCarbon: item.packagingCarbon || 0,
+        category: item.category
       })),
       totalAmount,
       totalEcoScore,
@@ -953,6 +956,8 @@ router.post('/chat', async (req, res) => {
   try {
     let intent = await getIntentFromCohere(message);
 
+    console.log("Intent obtained from Cohere:", intent)
+
     // If the query is about global context, force 'chat' intent
     const globalPhrases = [
       "in the world",
@@ -990,6 +995,7 @@ router.post('/chat', async (req, res) => {
       case "cart_alternative": {
         // Find user's last ordered product's category
         const user = await User.findById(userId);
+
         if (!user || !user.orders.length) {
           reply = "No recent orders found to suggest alternatives.";
           break;
@@ -997,12 +1003,16 @@ router.post('/chat', async (req, res) => {
         // Get last ordered product
         const lastOrder = user.orders[user.orders.length - 1];
         const lastItem = lastOrder.orderInfo.items[0];
+
+        console.log(lastOrder.orderInfo.items)
+
         if (!lastItem) {
           reply = "No items found in your last order.";
           break;
         }
         // Find higher ecoScore product in same category
-        const category = lastItem.category || "General";
+        const category = lastItem.category;
+        console.log("Category of last product is", lastItem)
         const products = await Product.find({ category });
         const better = products.filter(p => p.ecoScore > (lastItem.ecoScore || 0));
         if (better.length) {

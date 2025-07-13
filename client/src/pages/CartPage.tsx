@@ -158,11 +158,14 @@ const CartPage = () => {
           productId: item.cartItem._id,
           quantity: item.qty,
           packaging: selectedPackaging[item.cartItem._id] || 'standard',
-          packagingCarbon: getPackagingCarbonFootprint(item)
+          packagingCarbon: getPackagingCarbonFootprint(item),
+          category: item.cartItem.category
         })),
         totalCarbonFootprint,
         packagingSelections: selectedPackaging
       };
+
+      console.log("Orderdata is:", orderData)
       
       await checkout(orderData);
       console.log('Cart page - Checkout completed successfully');
