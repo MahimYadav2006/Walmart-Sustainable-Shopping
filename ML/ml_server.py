@@ -46,6 +46,10 @@ async def startup_event():
     if not load_model():
         logger.error("Failed to load model on startup")
 
+@app.get("/")
+def root():
+    return {"message": "Hello from FastAPI"}
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
@@ -182,4 +186,4 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="127.0.0.1", port=8001)
