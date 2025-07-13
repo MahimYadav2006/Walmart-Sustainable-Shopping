@@ -105,11 +105,11 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <a href="/" className="flex items-center space-x-2">
               <img
-                src="/logo.png"
+                src="/walmart.svg"
                 alt="Walmart Logo"
                 className="w-20 sm:w-24 h-auto object-contain"
               />
-              <Leaf className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-green-400" />
+              <Leaf className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-yellow-400" />
             </a>
             
             <select className="bg-blue-800 border border-blue-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm">
